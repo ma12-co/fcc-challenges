@@ -124,11 +124,16 @@ var watchList = [
   }
 ];
 
-var averageRating = watchList
+const sumOfAllRatings = watchList
   .filter(x => x.Director === "Christopher Nolan")
+  .map(x => parseFloat(x.imdbRating))
   .reduce((average, x) => {
-    return (parseFloat(x.imdbRating) + average) / 2;
+    return x + average;
   });
+
+const averageRating =
+  sumOfAllRatings /
+  watchList.filter(x => x.Director === "Christopher Nolan").length;
 
 // Add your code above this line
 
