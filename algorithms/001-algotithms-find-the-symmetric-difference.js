@@ -1,40 +1,42 @@
-function sym(args) {
-
-
-    //taking out duplicates from each array
-    let filtered = arguments.filter(x =>{
-        count = 0
-        for (let i = 0; i < x.length; i++) {
-            for (let j = 0; j < x.length; j++) {
-
+function sym(...args) {
+let result = []
+for (let i=0; i < args.length ; i++) {
+    //create copy of args 
+    let otherArrays = [...args]
+    //delete the current array from the copy
+    otherArrays.splice(i, 1) 
+    for (let j=0; j < args[i].length ; j++) {
+        let currentNum = args[i][j]
+        let isSimmetricDifferent = true
+        for (let k = 0; k < otherArrays.length ; k++){
+            if (otherArrays[k].indexOf(currentNum) != -1) {
+                isSimmetricDifferent = false
             }
+            }
+        if (isSimmetricDifferent) {
+            result.push(currentNum)
         }
+        }
+         
+    }
+    //sort the array and remove duplicates
+    result.sort()
+    result = result.filter((x, index)=>{
+        return result.indexOf(x) >= index
     })
-
-
-    let merged = []
-    let symmetric = []
-
-    for (let i of arguments) {
-        merged = [...merged, ...i]
-    }
-
-
-
-    for (let i = 0; i < merged.length; i++) {
-        let count = 0
-      for(let j=0; j < merged.length; j++) {
-          
-          if (merged[i] === merged[j] ) {
-              count++
-          }
-      }
-      if(count === 1) {
-          symmetric = [...symmetric, merged[i]]
-      }
-    }
-    console.log(symmetric)
-    return(symmetric)
+    return result
 }
 
-sym([1, 2, 3], [5, 2, 1, 4])
+//1 convert args into a real array
+//2 for each array in the args
+//3 for each number in the array 
+//4 check in the others array if the number is present (indexOf)
+//5 if it is, go back to loop in step 3 
+//6 if it's not, push it to the results array
+//Once loops end, clean the duplicates 
+
+
+
+
+ 
+sym([1, 2, 3, 3], [5, 2, 1, 4])
